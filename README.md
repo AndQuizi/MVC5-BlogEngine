@@ -6,7 +6,7 @@ A blogging engine developed with ASP.NET MVC 5
 
 #What is this?
 - A simple project I am continually developing in my spare time to improve my skills with MVC 5
- - Hopefully projects like these will improve my chances at landing more web developing jobs
+ - Hopefully projects like these will improve my chances at landing more web development jobs
 
 #Features:
 - Browse blog posts posted by other users
