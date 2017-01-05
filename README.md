@@ -12,7 +12,7 @@ A blogging engine developed with ASP.NET MVC 5
 - Browse blog posts created by other users
 - Create an account and create your own blog posts
 - Blog posts can be featured by those who have the "Editor" role
-- Inspired from (okay, mostly copied from) [Medium](www.Medium.com)
+- Inspired from (okay, mostly copied from) [Medium](http://www.Medium.com)
 
 #Todo:
 - Blog tags 
