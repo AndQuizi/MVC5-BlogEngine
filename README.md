@@ -7,12 +7,12 @@ A blogging engine developed with ASP.NET MVC 5
 #What is this?
 - A simple project I am continually developing in my spare time to improve my skills with MVC 5
  - Hopefully projects like these will improve my chances at landing more web development jobs
+- Inspired from (okay, mostly copied from) [Medium](http://www.Medium.com)
 
 #Features:
 - Browse blog posts created by other users
 - Create an account and create your own blog posts
 - Blog posts can be featured by those who have the "Editor" role
-- Inspired from (okay, mostly copied from) [Medium](http://www.Medium.com)
 
 #Todo:
 - Blog tags 
