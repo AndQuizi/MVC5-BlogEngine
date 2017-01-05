@@ -1,0 +1,16 @@
+﻿@model BlogEngine6.Models.ViewModels.ViewBlogViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div>
+    <h2>@Html.DisplayFor(model => model.Title)</h2>
+    <p><a class="blogPostAuthor" href="@Url.Action("Index", "Blogs", new { author=Model.UserName }, Request.Url.Scheme)">@Html.DisplayFor(model => model.UserName)</a></p>
+    <p>@Html.DisplayFor(model => model.PostDate)</p>
+
+    <hr />
+    <div>
+        @Html.Raw(Model.Content)
+    </div>
+</div>

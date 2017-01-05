@@ -1,0 +1,38 @@
+﻿@model IEnumerable<BlogEngine6.Models.ViewModels.ViewBlogViewModel>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Welcome";
+}
+
+<div class="blogList">
+    <div class="blogListBody home">
+
+        <h3>Check out some featured articles...</h3>
+
+        @foreach (var item in Model)
+        {
+            <div class="blogItem" data-id=@item.BlogID>
+                <div>
+                    <h3 class="blogPostTitle">@Html.DisplayFor(modelItem => item.Title)</h3>
+                    <p class="blogPostAuthor"><a href="@Url.Action("Index", "Blogs", new { author=item.UserName, currentFilter=ViewBag.CurrentFilter }, Request.Url.Scheme)">@Html.DisplayFor(modelItem => item.UserName)</a></p>
+                    <p class="blogPostDate">@Html.DisplayFor(modelItem => item.PostDate)</p>
+                    <div class="blogPostContent">
+                        @Html.Raw(item.Content)
+                        <div class="fadeHelper"></div>
+                    </div>
+                </div>
+                <p class="viewMore"><a href="@Url.Action("Details", "Blogs", new { id=item.BlogID }, Request.Url.Scheme)">View more...</a></p>
+            </div>
+
+
+        }
+
+        <br />
+    </div>
+    <div class="sideBar">
+        @{Html.RenderAction("WelcomeMessage");}
+        @{Html.RenderAction("RandomPosts", "Blogs");}
+    </div>
+</div>

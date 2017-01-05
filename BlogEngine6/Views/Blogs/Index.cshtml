@@ -1,0 +1,90 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<BlogEngine6.Models.ViewModels.ViewBlogViewModel>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Blogs";
+}
+
+<div class="row blogSearch">
+
+    <div class="col-xs-6 col-sm-4">
+    @using (Html.BeginForm("Index", "Blogs", FormMethod.Get))
+        {
+
+            if (ViewBag.CurrentAuthor != null)
+                {
+                <input type="hidden" name="author" value="@ViewBag.CurrentAuthor">
+            }
+            <label for="SearchString">Search:</label>
+            <p>
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { placeholder = "Title or Author" })
+                <input type="submit" value="Go" class="btn btn-primary submitBtn" />
+            </p>
+        }
+    </div>
+
+    @if (ViewBag.CurrentAuthor != null)
+    {
+        <div class="col-xs-6 col-sm-4">
+            <a href="@Url.Action("Index", "Blogs", new { currentFilter=ViewBag.CurrentFilter }, Request.Url.Scheme)" class="blogFilterAnchor">
+                <div><div><span>X</span></div><b>Author:</b> @ViewBag.CurrentAuthor</div>
+            </a>
+        </div>
+    }
+
+    @if (ViewBag.CurrentFilter != null)
+    {
+        <div class="col-xs-6 col-sm-4">
+            <a href="@Url.Action("Index", "Blogs", new { author = ViewBag.CurrentAuthor }, Request.Url.Scheme)" class="blogFilterAnchor">
+                <div><div><span>X</span></div><b>Filter:</b> <span>@ViewBag.CurrentFilter</span></div>
+            </a>
+        </div>
+    }
+
+
+</div>
+
+<div class="blogList">
+    <div class="blogListBody">
+        @foreach (var item in Model)
+        {
+            <div class="blogItem" data-id=@item.BlogID>
+                <div>
+                    <h3 class="blogPostTitle">@Html.DisplayFor(modelItem => item.Title)</h3>
+                    <p class="blogPostAuthor"><a href="@Url.Action("Index", "Blogs", new { author=item.UserName, currentFilter=ViewBag.CurrentFilter }, Request.Url.Scheme)">@Html.DisplayFor(modelItem => item.UserName)</a></p>
+                    <p class="blogPostDate">@Html.DisplayFor(modelItem => item.PostDate)</p>
+                    <div class="blogPostContent">
+                        @Html.Raw(item.Content)
+                        <div class="fadeHelper"></div>
+                    </div>
+                </div>
+                <p class="viewMore"><a href="@Url.Action("Details", "Blogs", new { id=item.BlogID }, Request.Url.Scheme)">View more...</a></p>
+
+                @if (Request.IsAuthenticated && User.IsInRole("Editor"))
+                {
+                    using (Html.BeginForm(null, null, null, FormMethod.Post, new { @style = "display: inline-block;" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value=@item.BlogID />
+                        <input type="button" value="Feature this Post" class="btn btn-success" onclick="featureBlogItem_Confirm(this);" />
+                    }
+                }
+
+            </div>
+
+
+        }
+
+        <br />
+    </div>
+    <div class="sideBar">
+        @{Html.RenderAction("FeaturedPosts", "Blogs");}
+        @{Html.RenderAction("RandomPosts", "Blogs");}
+    </div>
+</div>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter, author = ViewBag.CurrentAuthor }))

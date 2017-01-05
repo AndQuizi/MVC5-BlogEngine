@@ -1,0 +1,29 @@
+﻿@model BlogEngine6.Models.ViewModels.ViewBlogViewModel
+
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div>
+    <h2>@Html.DisplayFor(model => model.Title)</h2>
+    <p>@Html.DisplayFor(model => model.PostDate)</p>
+
+    <div style="margin-top: 15px;">
+        <p style="display: inline-block;">@Html.ActionLink("Edit", "Edit", new { id = Model.BlogID }, new { @class = "btn btn-warning" })</p>
+
+        @using (Html.BeginForm(null, null, null, FormMethod.Post, new { @style = "display: inline-block;" }))
+            {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value=@Model.BlogID />
+            <input type="button" value="Delete" class="btn btn-danger" onclick="deleteBlogItem_Confirm(this, true);" />
+        }
+
+    </div>
+
+    <hr />
+    <div>
+        @Html.Raw(Model.Content)
+    </div>
+</div>
+
