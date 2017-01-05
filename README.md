@@ -9,8 +9,8 @@ A blogging engine developed with ASP.NET MVC 5
  - Hopefully projects like these will improve my chances at landing more web development jobs
 
 #Features:
-- Browse blog posts posted by other users
-- Create an account and post your own blog posts
+- Browse blog posts created by other users
+- Create an account and create your own blog posts
 - Blog posts can be featured by those who have the "Editor" role
 - Inspired from (okay, mostly copied from) Medium.com
 
