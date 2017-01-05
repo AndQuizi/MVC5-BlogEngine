@@ -2,7 +2,7 @@
 A blogging engine developed with ASP.NET MVC 5
 
 ##Project URL: http://andquizi.azurewebsites.net/
-*Note: the project URL above is on an Azure free trial account. Once the trial exipres the link will no longer work.*
+*Note: the project URL above is on an Azure free trial account. Once the trial expires the link will no longer work.*
 
 #What is this?
 - A simple project I am continually developing in my spare time to improve my skills with MVC 5
