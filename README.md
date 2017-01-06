@@ -6,7 +6,6 @@ A blogging engine developed with ASP.NET MVC 5
 
 #What is this?
 - A simple project I am continually developing in my spare time to improve my skills with MVC 5
- - Hopefully projects like these will improve my chances at landing more web development jobs
 - Inspired from (okay, mostly copied from) [Medium](http://www.Medium.com)
 
 #Features:
@@ -18,3 +17,4 @@ A blogging engine developed with ASP.NET MVC 5
 - Blog tags 
 - Blog comments
 - More editor features
+- UX improvements
