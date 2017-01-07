@@ -29,5 +29,7 @@ namespace BlogEngine6.Models.ViewModels
         [StringLength(5000, MinimumLength = 10)]
         public string Content { get; set; }
 
+        public virtual ICollection<Tag> Tags { get; set; }
+
     }
 }

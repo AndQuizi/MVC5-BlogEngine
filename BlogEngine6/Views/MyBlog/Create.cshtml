@@ -10,7 +10,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal blogForm">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -25,8 +25,21 @@
 
         <div class="form-group">
             <label for="Content">Tell your story...</label>
-            @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @id = "createBlogContentInput" , @class = "form-control" } })
+            @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @id = "createBlogContentInput", @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <select multiple="multiple" id="tagSelect" name="selectedTags">
+                    @{
+                        List<BlogEngine6.Models.Tag> tags = ViewBag.BlogTags;
+
+                        foreach (var tag in tags)
+                        {
+                            <option value='@tag.TagID'>@tag.Name</option>
+                        }
+                    }
+            </select>
         </div>
 
         <div class="form-group">
@@ -38,8 +51,10 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/Custom/jquery.multi-select.js"></script>
     <script>
         $.validator.setDefaults({ ignore: '' });
         CKEDITOR.replace('createBlogContentInput');
+        $('#tagSelect').multiSelect()
     </script>
 }

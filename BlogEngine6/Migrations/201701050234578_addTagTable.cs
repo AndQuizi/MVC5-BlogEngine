@@ -17,7 +17,7 @@ namespace BlogEngine6.Migrations
                 .PrimaryKey(t => t.TagID);
             
             CreateTable(
-                "dbo.BlogTags",
+                "dbo.TagBlogs",
                 c => new
                     {
                         Tag_TagID = c.Int(nullable: false),
@@ -33,11 +33,11 @@ namespace BlogEngine6.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.BlogTags", "Blog_BlogID", "dbo.Blogs");
-            DropForeignKey("dbo.BlogTags", "Tag_TagID", "dbo.Tags");
-            DropIndex("dbo.BlogTags", new[] { "Blog_BlogID" });
-            DropIndex("dbo.BlogTags", new[] { "Tag_TagID" });
-            DropTable("dbo.BlogTags");
+            DropForeignKey("dbo.TagBlogs", "Blog_BlogID", "dbo.Blogs");
+            DropForeignKey("dbo.TagBlogs", "Tag_TagID", "dbo.Tags");
+            DropIndex("dbo.TagBlogs", new[] { "Blog_BlogID" });
+            DropIndex("dbo.TagBlogs", new[] { "Tag_TagID" });
+            DropTable("dbo.TagBlogs");
             DropTable("dbo.Tags");
         }
     }

@@ -100,6 +100,10 @@ namespace BlogEngine6.Controllers
         [Authorize]
         public ActionResult Create()
         {
+
+            IEnumerable<Tag> tags = db.Tags.ToList();
+            ViewBag.BlogTags = tags;
+
             return View();
         }
 
@@ -107,14 +111,24 @@ namespace BlogEngine6.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Title,Content")] CreateBlogViewModel blog)
+        public async Task<ActionResult> Create([Bind(Include = "Title,Content")] CreateBlogViewModel blog, string[] selectedTags)
         {
-            try
+           try
             {
+                Blog newBlog = new Blog();
+
+                if (selectedTags != null)
+                {
+                    newBlog.Tags = new List<Tag>();
+                    foreach (var tag in selectedTags)
+                    {
+                        var taggtoAdd = db.Tags.Find(int.Parse(tag));
+                        newBlog.Tags.Add(taggtoAdd);
+                    }
+                }
+
                 if (ModelState.IsValid)
                 {
-                    Blog newBlog = new Blog();
-
                     newBlog.Title = blog.Title;
                     newBlog.Content = blog.Content;
                     newBlog.UserID = User.Identity.GetUserId();
@@ -161,8 +175,12 @@ namespace BlogEngine6.Controllers
                 UserName = blog.User.UserName,
                 PostDate = blog.PostDate,
                 Title = blog.Title,
-                Content = blog.Content
+                Content = blog.Content,
+                Tags = blog.Tags
             };
+
+            IEnumerable<Tag> tags = db.Tags.ToList();
+            ViewBag.BlogTags = tags;
 
             return View(blogViewModel);
         }
@@ -170,7 +188,7 @@ namespace BlogEngine6.Controllers
         [Authorize]
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPost(int? id)
+        public ActionResult EditPost(int? id, string[] selectedTags)
         {
             if (id == null)
             {
@@ -189,6 +207,8 @@ namespace BlogEngine6.Controllers
             {
                 try
                 {
+
+                    UpdateBlogTags(selectedTags, blogToUpdate);
                     db.SaveChanges();
 
                     return RedirectToAction("Index");
@@ -200,8 +220,38 @@ namespace BlogEngine6.Controllers
             }
             return View(blogToUpdate);
         }
-    
-   
+
+        private void UpdateBlogTags(string[] selectedTags, Blog blogToUpdate)
+        {
+
+            if (selectedTags == null)
+            {
+                blogToUpdate.Tags.Clear();
+                return;
+            }
+
+            var selectedTagsHS = new HashSet<string>(selectedTags);
+            var blogTags = new HashSet<int>
+                (blogToUpdate.Tags.Select(c => c.TagID));
+            foreach (var tag in db.Tags)
+            {
+                if (selectedTagsHS.Contains(tag.TagID.ToString()))
+                {
+                    if (!blogTags.Contains(tag.TagID))
+                    {
+                        blogToUpdate.Tags.Add(tag);
+                    }
+                }
+                else
+                {
+                    if (blogTags.Contains(tag.TagID))
+                    {
+                        blogToUpdate.Tags.Remove(tag);
+                    }
+                }
+            }
+        }
+
 
         // POST: MyBlog/Delete/5
         [Authorize]
