@@ -52,6 +52,12 @@
             </div>
            
             <p class="viewMore"><a href="@Url.Action("Details", "MyBlog", new { id=item.BlogID }, Request.Url.Scheme)">View more...</a></p>
+            <p class="blogTags">
+                @foreach (var tag in item.Tags)
+                {
+                    <i class="fa fa-tag" aria-hidden="true"></i> @Html.DisplayFor(modelItem => tag.Name)
+                }
+            </p>
         </div>
         <div class="col-md-2 blogButtons">
             <p>@Html.ActionLink("Edit", "Edit", new { id = item.BlogID }, new { @class = "btn btn-warning" })</p>

@@ -55,7 +55,8 @@ namespace BlogEngine6.Controllers
                               UserName = o.User.UserName,
                               PostDate = o.PostDate,
                               Title = o.Title,
-                              Content = o.Content
+                              Content = o.Content,
+                              Tags = o.Tags
                           }).ToList();
 
             int pageSize = 3;
@@ -272,6 +273,15 @@ namespace BlogEngine6.Controllers
 
             return Json(new { success = false });
 
+        }
+
+
+        public ActionResult BlogTagsJSON()
+        {
+
+           var tags = db.Tags.Select(c => new { c.TagID, c.Name});
+
+            return Json(tags, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

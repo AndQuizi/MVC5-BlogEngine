@@ -27,6 +27,7 @@ namespace BlogEngine6
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
+                      "~/Content/font-awesome.min.css",
                       "~/Content/style.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/custom").Include(

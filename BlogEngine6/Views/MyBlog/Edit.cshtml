@@ -28,24 +28,24 @@
             @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
-            <select multiple="multiple" id="tagSelect" name="selectedTags">
-                @{
-                    List<BlogEngine6.Models.Tag> tags = ViewBag.BlogTags;
+        <div class="row form-group">
+            <div class="col-xs-4">
+                <button class="btn btn-warning showBlogTags" onclick="$('.blogTagsDiv').slideToggle(); return false;">Tag it!</button>
+                <div class="form-group blogTagsDiv" style="display: none;">
+                    <select multiple="multiple" id="tagSelect" name="selectedTags">
+                        @{
+                            List<BlogEngine6.Models.Tag> tags = ViewBag.BlogTags;
 
-                    foreach (var tag in tags)
-                    {
-                        <option value='@tag.TagID' @(Model.Tags.Contains(tag) ? "selected" : "")>@tag.Name</option>
-                    }
-                }
-            </select>
-        </div>
-
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-success submitBtn" />
+                            foreach (var tag in tags)
+                            {
+                                <option value='@tag.TagID' @(Model.Tags.Contains(tag) ? "selected" : "")>@tag.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-8">
+                <input type="submit" value="Post" class="btn btn-success submitBtn" />
             </div>
         </div>
     </div>
