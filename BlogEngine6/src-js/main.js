@@ -161,6 +161,7 @@ function deleteBlogItem_Delete(btnClicked, doRefresh) {
 
 };
 
+
 $(document).ready(function () {
 
     // If user is not logged in show login modal on authorized areas

@@ -18,10 +18,11 @@ namespace BlogEngine6.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Blogs
-        public ActionResult Index(string author, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string author, string tag, string currentFilter, string searchString, int? page)
         {
 
             ViewBag.CurrentAuthor = author;
+            ViewBag.CurrentTag = (String.IsNullOrEmpty(tag) ? null : tag);
 
             // Allow for paging and search filter
             if (searchString != null){
@@ -29,7 +30,7 @@ namespace BlogEngine6.Controllers
             }
             else{
                 searchString = currentFilter;
-            }
+            } 
 
             ViewBag.CurrentFilter = (String.IsNullOrEmpty(searchString) ? null : searchString);
 
@@ -43,6 +44,13 @@ namespace BlogEngine6.Controllers
             // Add author to query
             if (!String.IsNullOrEmpty(author)){
                 blogs = blogs.Where(b => b.User.UserName == author);
+            }
+
+            // Add tag to query
+            if (!String.IsNullOrEmpty(tag))
+            {
+                blogs = blogs.Where(x => x.Tags.Any(p2 => p2.Name == tag));
+
             }
 
             blogs = blogs.OrderByDescending(b => b.PostDate);
@@ -154,6 +162,15 @@ namespace BlogEngine6.Controllers
             ViewBag.Description = "The new variety hour.";
 
             return PartialView("SidebarPostsPartial", blogList);
+        }
+
+        [ChildActionOnly]
+        public ActionResult BlogTags()
+        {
+            // Get random blog based on generated GUID
+            var tags = db.Tags.OrderBy(b => b.Name);
+
+            return PartialView("SidebarTagsPartial", tags);
         }
 
     }

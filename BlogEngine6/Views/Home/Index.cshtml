@@ -24,6 +24,12 @@
                     </div>
                 </div>
                 <p class="viewMore"><a href="@Url.Action("Details", "Blogs", new { id=item.BlogID }, Request.Url.Scheme)">View more...</a></p>
+                <p class="blogTags">
+                    @foreach (var tag in item.Tags)
+                    {
+                        <i class="fa fa-tag" aria-hidden="true"></i> @Html.DisplayFor(modelItem => tag.Name)
+                    }
+                </p>
             </div>
 
 

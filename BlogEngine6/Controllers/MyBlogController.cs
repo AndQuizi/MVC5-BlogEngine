@@ -18,6 +18,7 @@ namespace BlogEngine6.Controllers
     public class MyBlogController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        const int MAX_BLOG_TAGS = 3;
 
         // GET: MyBlog
         [Authorize]
@@ -102,7 +103,7 @@ namespace BlogEngine6.Controllers
         public ActionResult Create()
         {
 
-            IEnumerable<Tag> tags = db.Tags.ToList();
+            IEnumerable<Tag> tags = db.Tags.OrderBy(b => b.Name ).ToList();
             ViewBag.BlogTags = tags;
 
             return View();
@@ -120,6 +121,12 @@ namespace BlogEngine6.Controllers
 
                 if (selectedTags != null)
                 {
+
+                    if (selectedTags.Length > MAX_BLOG_TAGS)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+
                     newBlog.Tags = new List<Tag>();
                     foreach (var tag in selectedTags)
                     {
@@ -180,7 +187,7 @@ namespace BlogEngine6.Controllers
                 Tags = blog.Tags
             };
 
-            IEnumerable<Tag> tags = db.Tags.ToList();
+            IEnumerable<Tag> tags = db.Tags.OrderBy(b => b.Name).ToList();
             ViewBag.BlogTags = tags;
 
             return View(blogViewModel);
@@ -199,6 +206,11 @@ namespace BlogEngine6.Controllers
             var blogToUpdate = db.Blogs.Find(id);
 
             if (blogToUpdate.UserID != userID)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (selectedTags != null && selectedTags.Length > MAX_BLOG_TAGS)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -231,11 +243,15 @@ namespace BlogEngine6.Controllers
                 return;
             }
 
+            // Get selected tags and all tags from DB
             var selectedTagsHS = new HashSet<string>(selectedTags);
             var blogTags = new HashSet<int>
                 (blogToUpdate.Tags.Select(c => c.TagID));
+                
+            // Loop through DB tags
             foreach (var tag in db.Tags)
             {
+                // If tag is one of the selected ones, add it, else remove it
                 if (selectedTagsHS.Contains(tag.TagID.ToString()))
                 {
                     if (!blogTags.Contains(tag.TagID))

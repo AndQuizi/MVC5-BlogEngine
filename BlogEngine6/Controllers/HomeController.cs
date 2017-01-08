@@ -25,7 +25,8 @@ namespace BlogEngine6.Controllers
                               UserName = b.Blog.User.UserName,
                               PostDate = b.Blog.PostDate,
                               Title = b.Blog.Title,
-                              Content = b.Blog.Content
+                              Content = b.Blog.Content,
+                              Tags = b.Blog.Tags
                           }).ToList();
 
             return View(blogList);

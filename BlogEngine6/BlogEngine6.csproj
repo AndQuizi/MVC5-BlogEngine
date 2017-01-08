@@ -650,6 +650,7 @@
     <Content Include="Views\Shared\_LayoutModal.cshtml" />
     <Content Include="Views\Shared\_LoginPartialForm.cshtml" />
     <Content Include="Views\Shared\_RegisterPartialForm.cshtml" />
+    <Content Include="Views\Blogs\SidebarTagsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
