@@ -172,6 +172,24 @@ namespace BlogEngine6.Controllers
 
             return PartialView("SidebarTagsPartial", tags);
         }
+        
+        [ChildActionOnly]
+        public ActionResult BlogComments(int id)
+        {
+            // Get random blog based on generated GUID
+            var comments = db.BlogComments.Where(b => b.BlogID == id).OrderBy(b => b.PostDate);
+
+            List<ViewBlogCommentViewModel> cList = comments.AsEnumerable()
+                          .Select(b => new ViewBlogCommentViewModel
+                          {
+                              BlogCommentID = b.BlogCommentID,
+                              Author = b.User.UserName,
+                              PostDate = b.PostDate,
+                              Message = b.Message
+                          }).ToList();
+
+            return PartialView("BlogCommentsPartial", cList);
+        }
 
     }
 }

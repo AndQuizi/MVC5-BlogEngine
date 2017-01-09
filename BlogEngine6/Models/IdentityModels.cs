@@ -36,6 +36,8 @@ namespace BlogEngine6.Models
 
         public System.Data.Entity.DbSet<BlogEngine6.Models.Tag> Tags { get; set; }
 
+        public System.Data.Entity.DbSet<BlogEngine6.Models.BlogComment> BlogComments { get; set; }
+
         // public System.Data.Entity.DbSet<BlogEngine6.Models.ApplicationUser> ApplicationUsers { get; set; }
 
     }

@@ -1,0 +1,14 @@
+﻿
+@model IEnumerable<BlogEngine6.Models.ViewModels.ViewBlogCommentViewModel>
+
+
+<ul>
+
+    @foreach (var item in Model)
+    {
+        <li>
+            @Html.DisplayFor(modelItem => item.Message)
+        </li>
+    }
+
+</ul>
