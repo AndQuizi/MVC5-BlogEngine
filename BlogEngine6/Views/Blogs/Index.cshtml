@@ -33,7 +33,7 @@
     @if (ViewBag.CurrentAuthor != null)
     {
         <div class="col-xs-6 col-sm-4">
-            <a href="@Url.Action("Index", "Blogs", new { currentFilter=ViewBag.CurrentFilter }, Request.Url.Scheme)" class="blogFilterAnchor">
+            <a href="@Url.Action("Index", "Blogs", new { currentFilter=ViewBag.CurrentFilter, tag=ViewBag.CurrentTag }, Request.Url.Scheme)" class="blogFilterAnchor">
                 <div><div><span>X</span></div><b>Author:</b> @ViewBag.CurrentAuthor</div>
             </a>
         </div>
@@ -42,14 +42,23 @@
     @if (ViewBag.CurrentFilter != null)
     {
         <div class="col-xs-6 col-sm-4">
-            <a href="@Url.Action("Index", "Blogs", new { author = ViewBag.CurrentAuthor }, Request.Url.Scheme)" class="blogFilterAnchor">
+            <a href="@Url.Action("Index", "Blogs", new { author = ViewBag.CurrentAuthor, tag=ViewBag.CurrentTag }, Request.Url.Scheme)" class="blogFilterAnchor">
                 <div><div><span>X</span></div><b>Filter:</b> <span>@ViewBag.CurrentFilter</span></div>
             </a>
         </div>
     }
 
+    @if (ViewBag.CurrentTag != null)
+    {
+        <div class="col-xs-6 col-sm-4">
+            <a href="@Url.Action("Index", "Blogs", new { author = ViewBag.CurrentAuthor, currentFilter = ViewBag.CurrentFilter }, Request.Url.Scheme)" class="blogFilterAnchor">
+                <div><div><span>X</span></div><b>Tag:</b> <span>@ViewBag.CurrentTag</span></div>
+            </a>
+        </div>
+    }
 
 </div>
+
 
 <div class="blogList">
     <div class="blogListBody">
