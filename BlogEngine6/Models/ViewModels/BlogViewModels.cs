@@ -58,6 +58,18 @@ namespace BlogEngine6.Models.ViewModels
         public string Author { get; set; }
     }
 
+    public class CreateBlogCommentViewModel
+    {
+        [Required]
+        public int BlogID { get; set; }
+
+        [Required]
+        [DataType(DataType.MultilineText)]
+        [StringLength(500, MinimumLength = 3)]
+        public string Message { get; set; }
+
+    }
+
     public class ViewBlogCommentViewModel
     {
         [Required]

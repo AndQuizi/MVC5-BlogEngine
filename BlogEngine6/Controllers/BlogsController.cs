@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using PagedList;
 using BlogEngine6.Models.ViewModels;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
 
 namespace BlogEngine6.Controllers
 {
@@ -120,7 +121,37 @@ namespace BlogEngine6.Controllers
 
             return Json(blogJSON, JsonRequestBehavior.AllowGet);
         }
+        
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> PostComment([Bind(Include = "BlogID,Message")] CreateBlogCommentViewModel comment)
+        {
+            try
+            {
+                BlogComment newComment = new BlogComment();
 
+                if (ModelState.IsValid)
+                {
+                    newComment.BlogID = comment.BlogID;
+                    newComment.Message = comment.Message;
+                    newComment.UserID = User.Identity.GetUserId();
+                    newComment.PostDate = DateTime.Now;
+                    db.BlogComments.Add(newComment);
+
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+
+            return RedirectToAction("Index");
+        }
+        
 
         [ChildActionOnly]
         public ActionResult FeaturedPosts()
@@ -189,6 +220,13 @@ namespace BlogEngine6.Controllers
                           }).ToList();
 
             return PartialView("BlogCommentsPartial", cList);
+        }
+
+        [ChildActionOnly]
+        public ActionResult BlogCommentsForm(int id)
+        {
+            ViewBag.BlogID = id;
+            return PartialView("BlogCommentsFormPartial");
         }
 
     }

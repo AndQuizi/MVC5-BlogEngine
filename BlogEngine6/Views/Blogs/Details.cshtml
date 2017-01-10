@@ -15,4 +15,5 @@
     </div>
 </div>
 
+@{Html.RenderAction("BlogCommentsForm", "Blogs", new { id = Model.BlogID });}
 @{Html.RenderAction("BlogComments", "Blogs", new { id = Model.BlogID });}

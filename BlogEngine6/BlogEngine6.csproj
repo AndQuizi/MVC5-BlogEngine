@@ -655,6 +655,7 @@
     <Content Include="Views\Shared\_RegisterPartialForm.cshtml" />
     <Content Include="Views\Blogs\SidebarTagsPartial.cshtml" />
     <Content Include="Views\Blogs\BlogCommentsPartial.cshtml" />
+    <Content Include="Views\Blogs\BlogCommentsFormPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

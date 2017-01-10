@@ -2,13 +2,20 @@
 @model IEnumerable<BlogEngine6.Models.ViewModels.ViewBlogCommentViewModel>
 
 
-<ul>
+<div class="blogCommentArea">
+    <h3>Comments</h3>
+    <hr />    
+    <div>
 
-    @foreach (var item in Model)
-    {
-        <li>
-            @Html.DisplayFor(modelItem => item.Message)
-        </li>
-    }
+        @foreach (var item in Model)
+        {
+            <p>@Html.DisplayFor(modelItem => item.Author)</p>
+            <p><i>@Html.DisplayFor(modelItem => item.PostDate)</i></p>
+            <p>
+                @Html.DisplayFor(modelItem => item.Message)
+            </p>
+            <hr />
+        }
 
-</ul>
+    </div>
+</div>
