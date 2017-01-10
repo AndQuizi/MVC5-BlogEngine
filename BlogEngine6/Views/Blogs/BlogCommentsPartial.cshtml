@@ -4,7 +4,7 @@
 
 <div class="blogCommentArea">
     <h3>Comments</h3>
-    @{Html.RenderAction("BlogCommentsForm", "Blogs", new { id = @ViewBag.BlogID });}
+    @{Html.RenderAction("BlogCommentsForm", "Blogs", new { id = @ViewBag.BlogID, count = ViewBag.Count });}
     <hr />    
     <div>
 
@@ -19,4 +19,11 @@
         }
 
     </div>
+
+    @if (Model.Count() > 0){
+        <div class="loadMoreDiv">
+            <button type="button" class="btn btn-danger" style="text-align: center;" onclick="$('.blogCommentArea').load('/Blogs/BlogComments?id=' + @ViewBag.BlogID +'&count='+( @ViewBag.Count+5))">Load More...</button>
+        </div>
+    }
+
 </div>

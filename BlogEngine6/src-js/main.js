@@ -171,7 +171,7 @@ Blog Functions
 ***********/
 
 
-function postBlogComment(btnClicked) {
+function postBlogComment(btnClicked, count) {
     var $form = $(btnClicked).parents('form');
 
     $.ajax({
@@ -184,12 +184,11 @@ function postBlogComment(btnClicked) {
             // On success refresh comment partial view
             if (json.success) {
                 $form.find("textarea").val("");
-                $('.blogCommentArea').load('/Blogs/BlogComments?id=' + json.blogId);
+                $('.blogCommentArea').load('/Blogs/BlogComments?id=' + json.blogId + '&count=' + count);
             }
         }
     });
 }
-
 
 
 

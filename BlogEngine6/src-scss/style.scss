@@ -418,6 +418,14 @@ a:active{
 
 .blogCommentArea {
     margin-top: 50px;
+
+    .loadMoreDiv {
+        text-align: center;
+
+        button {
+            width: 150px;
+        }
+    }
 }
 
 .blogCommentForm {

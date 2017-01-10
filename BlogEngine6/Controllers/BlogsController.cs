@@ -205,11 +205,11 @@ namespace BlogEngine6.Controllers
             return PartialView("SidebarTagsPartial", tags);
         }
         
-  
-        public ActionResult BlogComments(int id)
+    
+        public ActionResult BlogComments(int id, int count)
         {
             // Get random blog based on generated GUID
-            var comments = db.BlogComments.Where(b => b.BlogID == id).OrderByDescending(b => b.PostDate);
+            var comments = db.BlogComments.Where(b => b.BlogID == id).OrderByDescending(b => b.PostDate).Take(count);
 
             List<ViewBlogCommentViewModel> cList = comments.AsEnumerable()
                           .Select(b => new ViewBlogCommentViewModel
@@ -221,13 +221,15 @@ namespace BlogEngine6.Controllers
                           }).ToList();
 
             ViewBag.BlogID = id;
+            ViewBag.Count = count;
             return PartialView("BlogCommentsPartial", cList);
         }
 
         [ChildActionOnly]
-        public ActionResult BlogCommentsForm(int id)
+        public ActionResult BlogCommentsForm(int id, int count)
         {
             ViewBag.BlogID = id;
+            ViewBag.Count = count;
             return PartialView("BlogCommentsFormPartial");
         }
 
