@@ -121,7 +121,7 @@ namespace BlogEngine6.Controllers
 
             return Json(blogJSON, JsonRequestBehavior.AllowGet);
         }
-        
+
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -140,7 +140,8 @@ namespace BlogEngine6.Controllers
                     db.BlogComments.Add(newComment);
 
                     await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
+
+                    return Json(new { success = true, blogId = comment.BlogID });
                 }
             }
             catch (Exception)
@@ -149,9 +150,9 @@ namespace BlogEngine6.Controllers
             }
 
 
-            return RedirectToAction("Index");
+            return Json(new { success = false });
         }
-        
+
 
         [ChildActionOnly]
         public ActionResult FeaturedPosts()
@@ -204,11 +205,11 @@ namespace BlogEngine6.Controllers
             return PartialView("SidebarTagsPartial", tags);
         }
         
-        [ChildActionOnly]
+  
         public ActionResult BlogComments(int id)
         {
             // Get random blog based on generated GUID
-            var comments = db.BlogComments.Where(b => b.BlogID == id).OrderBy(b => b.PostDate);
+            var comments = db.BlogComments.Where(b => b.BlogID == id).OrderByDescending(b => b.PostDate);
 
             List<ViewBlogCommentViewModel> cList = comments.AsEnumerable()
                           .Select(b => new ViewBlogCommentViewModel
@@ -219,6 +220,7 @@ namespace BlogEngine6.Controllers
                               Message = b.Message
                           }).ToList();
 
+            ViewBag.BlogID = id;
             return PartialView("BlogCommentsPartial", cList);
         }
 

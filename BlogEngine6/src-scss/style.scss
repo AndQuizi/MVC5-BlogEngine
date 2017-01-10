@@ -419,3 +419,14 @@ a:active{
 .blogCommentArea {
     margin-top: 50px;
 }
+
+.blogCommentForm {
+    textarea {
+        max-width: 100%;
+    }
+
+    input {
+        width: 100px;
+    }
+
+}

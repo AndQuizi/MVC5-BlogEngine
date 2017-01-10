@@ -4,6 +4,7 @@
 
 <div class="blogCommentArea">
     <h3>Comments</h3>
+    @{Html.RenderAction("BlogCommentsForm", "Blogs", new { id = @ViewBag.BlogID });}
     <hr />    
     <div>
 

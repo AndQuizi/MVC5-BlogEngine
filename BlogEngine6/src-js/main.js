@@ -102,6 +102,7 @@ function removeFeaturedBlog_Remove(btnClicked) {
 
 
 
+
 /**********
 
 MyBlog Functions
@@ -160,6 +161,36 @@ function deleteBlogItem_Delete(btnClicked, doRefresh) {
     });
 
 };
+
+
+
+/**********
+
+Blog Functions
+
+***********/
+
+
+function postBlogComment(btnClicked) {
+    var $form = $(btnClicked).parents('form');
+
+    $.ajax({
+        type: "POST",
+        url: "/Blogs/PostComment",
+        data: $form.serialize(),
+        dataType: 'json',
+        success: function (json) {
+
+            // On success refresh comment partial view
+            if (json.success) {
+                $form.find("textarea").val("");
+                $('.blogCommentArea').load('/Blogs/BlogComments?id=' + json.blogId);
+            }
+        }
+    });
+}
+
+
 
 
 $(document).ready(function () {
