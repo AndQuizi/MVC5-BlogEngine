@@ -89,7 +89,7 @@ namespace BlogEngine6.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Roles = "Editor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult RemoveFeaturedArticle(int id)
@@ -97,7 +97,7 @@ namespace BlogEngine6.Controllers
             var userID = User.Identity.GetUserId();
             FeaturedBlog fBlog = db.FeaturedBlogs.SingleOrDefault(b => b.BlogID == id);
 
-            if (fBlog.UserID == userID)
+            if (fBlog.UserID == userID && fBlog != null)
             {
                 db.FeaturedBlogs.Remove(fBlog);
                 db.SaveChanges();
@@ -106,6 +106,22 @@ namespace BlogEngine6.Controllers
             }
 
             return Json(new { success = false });
+        }
+
+        [Authorize(Roles = "Editor")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RemoveComment(int id)
+        {
+            BlogComment comment = db.BlogComments.SingleOrDefault(b => b.BlogCommentID == id);
+
+            if(comment != null)
+            {
+                db.BlogComments.Remove(comment);
+                db.SaveChanges();
+                return Json(new { success = true, commentId = id });  
+            }
+            return Json(new { success = false});
         }
 
 

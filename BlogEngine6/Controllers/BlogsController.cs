@@ -17,6 +17,7 @@ namespace BlogEngine6.Controllers
     public class BlogsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        const int MAX_COMMENTS_PER_BLOG = 3;
 
         // GET: Blogs
         public ActionResult Index(string author, string tag, string currentFilter, string searchString, int? page)
@@ -129,13 +130,21 @@ namespace BlogEngine6.Controllers
         {
             try
             {
+                string userID = User.Identity.GetUserId();
+                var commentCount = db.BlogComments.Where(b => b.BlogID == comment.BlogID && b.UserID == userID).Count();
+
+                if(commentCount > MAX_COMMENTS_PER_BLOG)
+                {
+                    return Json(new { success = false, msg = "Comment cannot be posted. You can only post a maximum of " + MAX_COMMENTS_PER_BLOG + " comments per blog." });
+                }
+
                 BlogComment newComment = new BlogComment();
 
                 if (ModelState.IsValid)
                 {
                     newComment.BlogID = comment.BlogID;
                     newComment.Message = comment.Message;
-                    newComment.UserID = User.Identity.GetUserId();
+                    newComment.UserID = userID;
                     newComment.PostDate = DateTime.Now;
                     db.BlogComments.Add(newComment);
 
@@ -150,7 +159,7 @@ namespace BlogEngine6.Controllers
             }
 
 
-            return Json(new { success = false });
+            return Json(new { success = false, msg = "Comment not posted. An unknown error occured." });
         }
 
 

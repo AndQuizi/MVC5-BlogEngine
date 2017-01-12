@@ -10,12 +10,25 @@
 
         @foreach (var item in Model)
         {
-            <p>@Html.DisplayFor(modelItem => item.Author)</p>
-            <p><i>@Html.DisplayFor(modelItem => item.PostDate)</i></p>
-            <p>
-                @Html.DisplayFor(modelItem => item.Message)
-            </p>
-            <hr />
+            <div class="commentItem" data-id=@item.BlogCommentID>
+                <div style="float: right;" >
+                    @if (Request.IsAuthenticated && User.IsInRole("Editor"))
+                    {
+                            using (Html.BeginForm(null, null, null, FormMethod.Post, new { @style = "display: inline-block;" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value=@item.BlogCommentID />
+                                <input type="button" value="X" class="btn btn-danger"  onclick="deleteComment_Confirm(this);" />
+                            }
+                    }
+                </div>
+                <p>@Html.DisplayFor(modelItem => item.Author)</p>
+                <p><i>@Html.DisplayFor(modelItem => item.PostDate)</i></p>
+                <p>
+                    @Html.DisplayFor(modelItem => item.Message)
+                </p>
+                <hr />
+            </div>
         }
 
     </div>

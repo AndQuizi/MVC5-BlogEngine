@@ -5,6 +5,40 @@ Editor Functions
 
 ***********/
 
+function deleteComment_Confirm(btnClicked) {
+
+    var delConfirm = "<h3> Are you sure you want to feature this comment?</h3>";
+
+    bootbox.confirm(delConfirm, function (result) {
+
+        if (result) {
+
+            deleteComment_Delete(btnClicked);
+
+        }
+    });
+};
+
+function deleteComment_Delete(btnClicked) {
+
+    var $form = $(btnClicked).parents('form');
+
+    $.ajax({
+        type: "POST",
+        url: "/Editor/RemoveComment",
+        data: $form.serialize(),
+        dataType: 'json',
+        success: function (json) {
+
+
+            if (json.success) {
+                $(".commentItem").filter('[data-id="' + json.commentId + '"]').remove();
+            }
+
+        }
+    });
+};
+
 function featureBlogItem_Confirm(btnClicked) {
 
     var blogID = $(btnClicked).parents('form').find('input[name="id"]').val();
@@ -185,6 +219,9 @@ function postBlogComment(btnClicked, count) {
             if (json.success) {
                 $form.find("textarea").val("");
                 $('.blogCommentArea').load('/Blogs/BlogComments?id=' + json.blogId + '&count=' + count);
+            }
+            else {
+                bootbox.alert("<p><b>"+json.msg+"</b></p>");
             }
         }
     });
