@@ -14,6 +14,7 @@ A blogging engine developed with ASP.NET MVC 5
 - Blog posts can be featured by those who have the "Editor" role
 - Blog tags 
 - Blog comments 
+- Favorite Blogs
 
 #Todo:
 - More editor features
