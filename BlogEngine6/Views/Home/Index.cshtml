@@ -20,6 +20,7 @@
     </div>
     <div class="sideBar">
         @{Html.RenderAction("WelcomeMessage");}
+        @{Html.RenderAction("FavoriteStories", "Blogs");}
         @{Html.RenderAction("RandomPosts", "Blogs");}
         @{Html.RenderAction("BlogTags", "Blogs");}
     </div>

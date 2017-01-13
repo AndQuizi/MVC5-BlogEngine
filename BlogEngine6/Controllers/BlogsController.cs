@@ -245,6 +245,26 @@ namespace BlogEngine6.Controllers
         }
 
         [ChildActionOnly]
+        public ActionResult FavoriteStories()
+        {
+
+            // Get top occuring blogs from favorite blogs table
+            var favBlogs = (from blogs in db.FavoriteBlogs
+                           group blogs by blogs.BlogID into blogGroup
+                           select new FeaturedPostViewModel
+                           {
+                               BlogID = blogGroup.Key,
+                               Title = blogGroup.Select(b => b.Blog.Title).FirstOrDefault(),
+                               Author = blogGroup.Select(b => b.Blog.User.UserName).FirstOrDefault(),
+                           }).Take(5).ToList();
+
+            ViewBag.Title = "Top Stories";
+            ViewBag.Description = "What people love.";
+
+            return PartialView("SidebarPostsPartial", favBlogs);
+        }
+
+        [ChildActionOnly]
         public ActionResult BlogTags()
         {
             // Get random blog based on generated GUID
