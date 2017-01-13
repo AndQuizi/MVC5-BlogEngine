@@ -12,9 +12,11 @@ A blogging engine developed with ASP.NET MVC 5
 - Browse blog posts created by other users
 - Create an account and create your own blog posts
 - Blog posts can be featured by those who have the "Editor" role
+- Blog tags 
+- Blog comments 
 
 #Todo:
-- Blog tags 
-- Blog comments
 - More editor features
 - UX improvements
+- Bug fixes (as I find them)
+- New features (when I get new ideas)
