@@ -205,6 +205,36 @@ Blog Functions
 ***********/
 
 
+function favoriteBlogItem(btnClicked) {
+    var $form = $(btnClicked).parents('form');
+
+    $.ajax({
+        type: "POST",
+        url: "/Blogs/FavoritePost",
+        data: $form.serialize(),
+        dataType: 'json',
+        success: function (json) {
+
+            // On success refresh comment partial view
+            if (json.success) {
+                
+                if (json.isAdded) {
+                    $(btnClicked).addClass("btn-danger");
+                }
+                else {
+                    $(btnClicked).removeClass("btn-danger");
+                }
+
+            }
+            else {
+                bootbox.alert("<p><b>" + json.msg + "</b></p>");
+            }
+        }
+    });
+}
+
+
+
 function postBlogComment(btnClicked, count) {
     var $form = $(btnClicked).parents('form');
 

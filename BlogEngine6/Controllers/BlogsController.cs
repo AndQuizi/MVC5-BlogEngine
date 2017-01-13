@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity;
 
 namespace BlogEngine6.Controllers
 {
-    public class BlogsController : Controller
+    public class BlogsController : BlogBase
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         const int MAX_COMMENTS_PER_BLOG = 3;
@@ -27,24 +27,24 @@ namespace BlogEngine6.Controllers
             ViewBag.CurrentTag = (String.IsNullOrEmpty(tag) ? null : tag);
 
             // Allow for paging and search filter
-            if (searchString != null){
+            if (searchString != null) {
                 page = 1;
             }
-            else{
+            else {
                 searchString = currentFilter;
-            } 
+            }
 
             ViewBag.CurrentFilter = (String.IsNullOrEmpty(searchString) ? null : searchString);
 
             var blogs = db.Blogs.Include(b => b.User);
 
             // Add search string to query
-            if (!String.IsNullOrEmpty(searchString)){
+            if (!String.IsNullOrEmpty(searchString)) {
                 blogs = blogs.Where(b => b.User.UserName.Contains(searchString) || b.Title.Contains(searchString));
             }
 
             // Add author to query
-            if (!String.IsNullOrEmpty(author)){
+            if (!String.IsNullOrEmpty(author)) {
                 blogs = blogs.Where(b => b.User.UserName == author);
             }
 
@@ -65,9 +65,11 @@ namespace BlogEngine6.Controllers
                               PostDate = b.PostDate,
                               Title = b.Title,
                               Content = b.Content,
-                              Tags = b.Tags
+                              Tags = b.Tags,
+                              isFavorited = false
                           }).ToList();
 
+            blogList = checkFavorites(blogList);
 
             int pageSize = 3;
             int pageNumber = (page ?? 1);
@@ -98,6 +100,7 @@ namespace BlogEngine6.Controllers
                 Content = blog.Content
             };
 
+            blogViewModel = checkFavorites(blogViewModel);
             return View(blogViewModel);
         }
 
@@ -121,6 +124,42 @@ namespace BlogEngine6.Controllers
             blogJSON["PostDate"] = blog.PostDate.ToString();
 
             return Json(blogJSON, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> FavoritePost(int blogID)
+        {
+            string userID = User.Identity.GetUserId();
+            FavoriteBlog checkFBlog = db.FavoriteBlogs.SingleOrDefault(b => b.BlogID == blogID && b.UserID == userID);
+
+            try
+            {
+                // If post is already favorited, remove favorite
+                if (checkFBlog != null)
+                {
+                    db.FavoriteBlogs.Remove(checkFBlog);
+                    db.SaveChanges();
+
+                    return Json(new { success = true, isAdded = false, blogId = blogID });
+                }
+
+                FavoriteBlog fBlog = new FavoriteBlog();
+
+                fBlog.BlogID = blogID;
+                fBlog.UserID = userID;
+                db.FavoriteBlogs.Add(fBlog);
+
+                await db.SaveChangesAsync();
+
+                return Json(new { success = true, isAdded = true, blogId = blogID });
+                
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, msg = "An unknown error occured." });
+            }
         }
 
         [Authorize]
@@ -213,8 +252,8 @@ namespace BlogEngine6.Controllers
 
             return PartialView("SidebarTagsPartial", tags);
         }
-        
-    
+
+
         public ActionResult BlogComments(int id, int count)
         {
             // Get random blog based on generated GUID

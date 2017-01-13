@@ -15,4 +15,5 @@
     </div>
 </div>
 
+@Html.Partial("Blogs/FavoritePostFormPartial", Model)
 @{Html.RenderAction("BlogComments", "Blogs", new { id = Model.BlogID, count = 5 });}

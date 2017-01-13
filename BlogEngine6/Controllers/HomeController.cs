@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace BlogEngine6.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BlogBase
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -28,6 +28,8 @@ namespace BlogEngine6.Controllers
                               Content = b.Blog.Content,
                               Tags = b.Blog.Tags
                           }).ToList();
+
+            blogList = checkFavorites(blogList);
 
             return View(blogList);
         }
