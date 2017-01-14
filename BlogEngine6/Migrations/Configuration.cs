@@ -45,27 +45,6 @@
             blogs.ForEach(s => context.Blogs.AddOrUpdate(p => p.Title, s));
             context.SaveChanges();
 
-            var featuredBlogs = new List<FeaturedBlog>
-            {
-                new FeaturedBlog
-                {
-                    FeaturedBlogID = Guid.NewGuid(),
-                    UserID = context.Users.Single(u => u.Email == "test@example.com").Id,
-                    BlogID =  59,
-                    FeatureDate = DateTime.Now
-                },
-                new FeaturedBlog
-                {
-                    FeaturedBlogID = Guid.NewGuid(),
-                    UserID = context.Users.Single(u => u.Email == "test@example.com").Id,
-                    BlogID =  63,
-                    FeatureDate = DateTime.Now
-                }
-            };
-
-            featuredBlogs.ForEach(s => context.FeaturedBlogs.AddOrUpdate(p => p.BlogID, s));
-            context.SaveChanges();
-
 
             var tags = new List<Tag>
             {

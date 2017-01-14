@@ -43,12 +43,14 @@ namespace BlogEngine6.Models.ViewModels
         public string Content { get; set; }
 
         public bool isFavorited { get; set; }
+        public int commentCount { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }
 
         public ViewBlogViewModel()
         {
             isFavorited = false;
+            commentCount = 0;
         }
 
     }

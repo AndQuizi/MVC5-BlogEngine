@@ -66,12 +66,14 @@ namespace BlogEngine6.Controllers
                               Title = b.Title,
                               Content = b.Content,
                               Tags = b.Tags,
-                              isFavorited = false
+                              isFavorited = false,
+                              commentCount = 0
                           }).ToList();
 
             blogList = checkFavorites(blogList);
+            blogList = setNumComments(blogList);
 
-            int pageSize = 3;
+            int pageSize = 4;
             int pageNumber = (page ?? 1);
             return View(blogList.ToPagedList(pageNumber, pageSize));
 
@@ -181,7 +183,7 @@ namespace BlogEngine6.Controllers
                               isFavorited = true
                           }).ToList();
 
-            int pageSize = 3;
+            int pageSize = 4;
             int pageNumber = (page ?? 1);
             return View(blogList.ToPagedList(pageNumber, pageSize));
         }

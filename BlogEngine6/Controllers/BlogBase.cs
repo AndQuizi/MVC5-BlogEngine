@@ -59,5 +59,21 @@ namespace BlogEngine6.Controllers
             return blogList;
         }
 
+        // Accept list of blogs, return list with number comments each blog has
+        public List<ViewBlogViewModel> setNumComments(List<ViewBlogViewModel> blogList)
+        {
+            foreach (var blog in blogList)
+            {
+                int numComments = db.BlogComments.Where(b => b.BlogID == blog.BlogID).Count();
+
+                if (numComments > 0)
+                {
+                    blog.commentCount = numComments;
+                }
+
+            }
+            return blogList;
+        }
+
     }
 }

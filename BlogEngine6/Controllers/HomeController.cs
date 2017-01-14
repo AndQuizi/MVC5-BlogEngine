@@ -30,6 +30,7 @@ namespace BlogEngine6.Controllers
                           }).ToList();
 
             blogList = checkFavorites(blogList);
+            blogList = setNumComments(blogList);
 
             return View(blogList);
         }

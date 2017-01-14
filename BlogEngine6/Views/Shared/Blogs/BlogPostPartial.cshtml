@@ -16,8 +16,13 @@
         {
             <i class="fa fa-tag" aria-hidden="true"></i> @Html.DisplayFor(modelItem => tag.Name)
         }
-    </p>
 
+        @if (@Model.commentCount > 0)
+        {
+        <span style="float:right;">@Html.DisplayFor(modelItem => Model.commentCount) response@(Model.commentCount > 1 ? "s" : "")</span>
+        }
+    </p>
+ 
     @Html.Partial("Blogs/FavoritePostFormPartial", Model)
     @Html.Partial("Blogs/FeaturePostFormPartial", Model)
 
