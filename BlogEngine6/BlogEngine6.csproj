@@ -669,6 +669,7 @@
     <Content Include="Views\Shared\Blogs\FavoritePostFormPartial.cshtml" />
     <Content Include="Views\Shared\Blogs\BlogPostPartial.cshtml" />
     <Content Include="Views\Shared\Blogs\FeaturePostFormPartial.cshtml" />
+    <Content Include="Views\Blogs\Favorites.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

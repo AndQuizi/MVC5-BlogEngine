@@ -61,6 +61,7 @@
 
 
 <div class="blogList">
+
     <div class="blogListBody">
         @foreach (var item in Model)
         {
@@ -70,6 +71,12 @@
         <br />
     </div>
     <div class="sideBar">
+
+        @if (Request.IsAuthenticated)
+        {
+            <p><i class="fa fa-heart" style="color: red;" aria-hidden="true"></i> @Html.ActionLink("Favorite Blogs", "Favorites", "Blogs")</p>
+        }
+
         @{Html.RenderAction("FeaturedPosts", "Blogs");}
         @{Html.RenderAction("FavoriteStories", "Blogs");}
         @{Html.RenderAction("RandomPosts", "Blogs");}

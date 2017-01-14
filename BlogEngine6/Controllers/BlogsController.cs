@@ -163,6 +163,30 @@ namespace BlogEngine6.Controllers
         }
 
         [Authorize]
+        public ActionResult Favorites(int? page)
+        {
+            // Get all user favorited blogs
+            string userID = User.Identity.GetUserId();
+            var fBlogs = db.FavoriteBlogs.Where(b => b.UserID == userID).OrderByDescending(b => b.Blog.PostDate);
+
+            List<ViewBlogViewModel> blogList = fBlogs.AsEnumerable()
+                          .Select(b => new ViewBlogViewModel
+                          {
+                              BlogID = b.BlogID,
+                              UserName = b.User.UserName,
+                              PostDate = b.Blog.PostDate,
+                              Title = b.Blog.Title,
+                              Content = b.Blog.Content,
+                              Tags = b.Blog.Tags,
+                              isFavorited = true
+                          }).ToList();
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(blogList.ToPagedList(pageNumber, pageSize));
+        }
+
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> PostComment([Bind(Include = "BlogID,Message")] CreateBlogCommentViewModel comment)
